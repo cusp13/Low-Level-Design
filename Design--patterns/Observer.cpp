@@ -1,3 +1,9 @@
+// 🧠 Why use const string& instead of string?
+// Version	                       What Happens                                                  	Performance
+// string videoTitle	         Makes a full copy of the string every time you call the function	⛔ Slower if string is large
+// const string& videoTitle	     Just points to the original string — no copy	                    ✅ Much faster
+// string& videoTitle	         Modifiable reference — could change original	                    ⚠️ Risky if you don’t want to change it
+
 #include <iostream>
 #include <algorithm>
 #include <vector>
