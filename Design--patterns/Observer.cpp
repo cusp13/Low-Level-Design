@@ -12,7 +12,17 @@ using namespace std;
 // Interface for Subscriber
 class ISubscriber {
 public:
+    // Pure virtual class so that every method have to implement there own update function.
     virtual void update(const string& videoTitle) = 0;
+    // 💥 Problem Without Virtual Destructor:
+    //   Suppose you delete a derived class (User) using a base class pointer (ISubscriber*):
+    //   ISubscriber* subscriber = new User("Alice");
+    //   delete subscriber; // DANGER without virtual destructor!
+    //   If the base class (ISubscriber) does not have a virtual destructor, then only the base class's destructor will be called — not the User class's destructor.
+    //  🛑 That can lead to:
+    //   - Memory leaks
+    //   - Incomplete cleanup
+    //   - Undefined behavior
     virtual ~ISubscriber() {};
 };
 
