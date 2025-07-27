@@ -24,10 +24,10 @@ public:
 // Decorator base
 class CoffeeDecorator: public Coffee {
 protected:
-    shared_ptr<Coffee> coffee; // strong pointer
+    shared_ptr<Coffee> coffee; // strong pointer // this holds the previous layer (decorated object)
 public:
 // When someone creates a CoffeeDecorator and passes a shared_ptr<Coffee> to it, store that pointer in the member variable coffee.
-    CoffeeDecorator(shared_ptr<Coffee> c) : coffee(c) {}
+    CoffeeDecorator(shared_ptr<Coffee> c) : coffee(c) {} // pass the coffee during creation
 };
 
 // Concrete Decorators
