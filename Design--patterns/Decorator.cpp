@@ -11,7 +11,7 @@ public:
 };
 
 // Concrete component
-class BasicCoffee : public Coffee {
+class BasicCoffee: public Coffee {
 public:
     string getDescription() override {
         return "Basic Coffee";
@@ -22,15 +22,16 @@ public:
 };
 
 // Decorator base
-class CoffeeDecorator : public Coffee {
+class CoffeeDecorator: public Coffee {
 protected:
     shared_ptr<Coffee> coffee; // strong pointer
 public:
+// When someone creates a CoffeeDecorator and passes a shared_ptr<Coffee> to it, store that pointer in the member variable coffee.
     CoffeeDecorator(shared_ptr<Coffee> c) : coffee(c) {}
 };
 
 // Concrete Decorators
-class MilkDecorator : public CoffeeDecorator {
+class MilkDecorator: public CoffeeDecorator {
 public:
     MilkDecorator(shared_ptr<Coffee> c) : CoffeeDecorator(c) {}
     string getDescription() override {
@@ -41,7 +42,7 @@ public:
     }
 };
 
-class SugarDecorator : public CoffeeDecorator {
+class SugarDecorator: public CoffeeDecorator {
 public:
     SugarDecorator(shared_ptr<Coffee> c) : CoffeeDecorator(c) {}
     string getDescription() override {
