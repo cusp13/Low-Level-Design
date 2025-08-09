@@ -18,6 +18,7 @@ public:
         if(instance == nullptr){
             instance = new DeviceManager();
         }
+        return instance;
     }
     void connect(DeviceType deviceType){
         if(currentOutputDevice){
