@@ -50,7 +50,8 @@ public:
         cout << "Total Price: " << cart->calculatePrice()<<endl;
     }
 };
-
+//In this class, if I write multiple methods for saving data in different DBs, then it will break the open-close principle for that
+//We should use an abstract class 
 class ShoppingCartStorage {
 private:
     ShoppingCart* cart;
