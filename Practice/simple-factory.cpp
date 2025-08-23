@@ -21,6 +21,7 @@ public:
     }
 };
 
+// this will break open close principle everytime i need to edit this class when new type of burger comes in.
 class BurgerFactory {
 public:
     Burger* createBurger(string type){
