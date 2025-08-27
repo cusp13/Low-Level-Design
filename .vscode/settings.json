@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "map": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "iostream": "cpp"
     }
 }
