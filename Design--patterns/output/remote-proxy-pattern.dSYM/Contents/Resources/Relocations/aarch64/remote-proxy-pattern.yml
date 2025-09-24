@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/divyanshsharma/Documents/System-Design/Design--patterns/output/remote-proxy-pattern'
+relocations:     []
+...
