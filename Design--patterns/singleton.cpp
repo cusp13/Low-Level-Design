@@ -1,3 +1,28 @@
+// Singleton class with eager innitization.
+#include<iostream>
+using namespace std;
+
+class Singleton {
+private:
+    static Singleton* instance;
+    Singleton(){
+        cout<<"insitiating singleton class"<<endl;
+    }
+public:
+    static Singleton* getInstance() {
+        return instance;
+    }
+};
+// Eager intilization
+Singleton *Singleton::instance = new Singleton();
+
+int main() {
+   Singleton* s1 = Singleton::getInstance();
+   Singleton* s2 = Singleton::getInstance();
+   
+   return ;
+};
+
 #include<iostream>
 #include<mutex>
 using namespace std;
