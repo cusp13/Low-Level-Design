@@ -1,0 +1,13 @@
+Learnings
+_____________________________________________________________________________________
+| Concept                   | What You Learned                                      |
+| ------------------------- | ----------------------------------------------------- |
+| **Design Patterns**       | Strategy, Singleton, Chain of Responsibility          |
+| **OOP Principles**        | Encapsulation, Polymorphism, Inheritance, Composition |
+| **Thread Safety**         | Mutex, Lock Guard, RAII                               |
+| **Memory Management**     | Ownership, destructors, cleanup                       |
+| **Const Correctness**     | Safe read-only operations                             |
+| **Extensibility**         | Easily add new discounts and coupons                  |
+| **STL Mastery**           | Vectors, strings, algorithms, RAII types              |
+| **Architecture Thinking** | Separation of concerns and modular design             |
+_____________________________________________________________________________________
