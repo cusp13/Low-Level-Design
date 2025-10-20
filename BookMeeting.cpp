@@ -62,39 +62,37 @@ public:
     }
 };
 
-class INotification {
-public:
-    virtual string getContent() const = 0;
-    virtual ~INotification() {};    
-};
 
-class SimpleNotification : public INotification {
+class Notification {
 private:
     string text;
     string startTime;
     string endTime;
 public:
-    SimpleNotification(const string& text, string startTime, string endTime) {
+    Notification(const string& text, string startTime, string endTime) {
         this->text = text;
         this->startTime = startTime;
         this-> endTime = endTime;
     }
-    string getContent() const override {
+    string getContent() {
         return text + " " + startTime + "which ends at " + endTime; 
     }
 };
 
-class IObserver {
-public:
-    virtual void update() = 0;
-    virtual ~IObserver() {};
-};
-
-class IObservable {
-public:
-    virtual void addObserver(IObserver *observer) = 0;
-    virtual void removeObserver(IObserver *observer) = 0;
-    virtual void notifyObservers() = 0;
+class Invitee {
+public;
+    vector<User*> invitees;
+    Notification* notification;
+    
+    void addInvitees(User* user) {
+        invitees.push_back(user);
+    }
+    
+    void NotifyInvitee() {
+        for(auto it: invitees) {
+        cout << "Invitation send to " << it->getUserName() << "for" << notification->getContent()<<endl;
+        }
+    }
 };
 
 
