@@ -1,4 +1,6 @@
 #include<iostream>
+#include<vector>
+#include<string>
 using namespace std;
 
 class User {
@@ -49,12 +51,12 @@ private:
     MeetingRoom* mtr;
 public:
     ScheduleMeeting(string startTime, string endTime, int cap) {
-         startTime = startTime;
-         endTime = endTime;
-         capacity = cap;
+         this->startTime = startTime;
+         this->endTime = endTime;
+         this->capacity = cap;
     }
     bool isAvailable(MeetingRoom* mtr, User* user) {
-        if(capacity < mtr->roomCapacity() && !mtr->roomCapacity()) {
+        if(capacity < mtr->roomCapacity() && !mtr->isOccupied()) {
             cout<<"Meeting room booked by: "<< user->getUserName() <<endl;
             return true;
         }
@@ -75,39 +77,48 @@ public:
         this-> endTime = endTime;
     }
     string getContent() {
-        return text + " " + startTime + "which ends at " + endTime; 
+        return text + " " + startTime + " which ends at " + endTime; 
     }
 };
 
 class Invitee {
-public;
-    vector<User*> invitees;
+private:
     Notification* notification;
-    
+public:
+    Invitee(Notification* ntf) {
+        notification = ntf;
+    }
+    vector<User*> invitees;
     void addInvitees(User* user) {
         invitees.push_back(user);
     }
     
-    void NotifyInvitee() {
+    string NotifyInvitee() {
         for(auto it: invitees) {
-        cout << "Invitation send to " << it->getUserName() << "for" << notification->getContent()<<endl;
+          cout<<"✅ Invitation send to " + it->getUserName() + " for " + notification->getContent()<<endl;
         }
+        return "🚀Notified all users";
     }
 };
-
-
-
-
-
-
 
 int main() {
     User* user = new User("Divyansh");
     MeetingRoom* meetingRm = new MeetingRoom(101, 10, "10:30", "11:30");
     ScheduleMeeting *meet = new ScheduleMeeting("10:30", "11:30", 9);
-    cout<< meet->isAvailable(meetingRm, user) <<endl;
-    // cout<<meetingRm->roomCapacity()<<endl;
+    User *saumya = new User("Saumya");
+    User *badal = new User("Badal");
+    Notification* notification = new Notification("Sprint Planning", "10:30", "11:30");
+    Invitee* invite = new Invitee(notification);
+    invite->addInvitees(saumya);
+    invite->addInvitees(badal);
+    invite->addInvitees(user);
+    if(meet->isAvailable(meetingRm, user)) {
+        cout<<invite->NotifyInvitee()<<endl;
+    } else {
+        cout<<"Room not available for meeting"<<endl;
+    }
+    
     
     
     return 0;
-}
+};
