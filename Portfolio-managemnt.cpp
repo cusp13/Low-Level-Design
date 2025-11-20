@@ -1,3 +1,58 @@
++------------------------+
+|         User           |
++------------------------+
+| - userId: int          |
+| - name: string         |
+| - email: string        |
+| - passwordHash: string |
+| - portfolios:          | 
+| vector<Portfolio*>     |
++------------------------+
+| + registerUser()       |
+| + login()              |
+| + addPortfolio()       |
++------------------------+
+             |
+             | 1
+             | 
+             |  *
+             v
++----------------------------+
+|         Portfolio          |
++----------------------------+
+| - portfolioId: int         |
+| - name: string             |
+| - userId: int              |
+| - creationDate: time_t     |
+| - stocks: vector<Stock*>   |
+| - orders: vector<Order*>   |
++----------------------------+
+| + allocation()             |
+| + removeStock()            |
+| + rebalance()              |
+| + placeOrder()             |
++----------------------------+
+     |              |
+     | *            | *
+     v              v
++----------------+  +-----------------------------+
+|     Stock      |  |            Order            |
++----------------+  +-----------------------------+
+| - stockId: int |  | - orderId: int              |
+| - symbol: str  |  | - portfolioId: int          |
+| - name: str    |  | - stockId: int              |
+| - marketPrice: |  | - orderType: string         |
++----------------+  | - quantity: int             |
+| + updatePrice()|  | - status: string            |
++----------------+  | - createdAt: time_t         |
+                    +-----------------------------+
+                    | + executeOrder()            |
+                    +-----------------------------+
+
+
+
+    
+Code:
 #include <iostream>
 #include <string>
 #include <vector>
