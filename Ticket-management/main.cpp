@@ -1,4 +1,139 @@
 #include <bits/stdc++.h>
+using namespace std;
+
+// utility for generating ids
+atomic<uint64_t> NEXT_ID{1};
+uint64_t genId() { return NEXT_ID++; }
+
+// ---------------- Models ----------------
+struct User {
+    uint64_t id; string name, email, password;
+    User(string n,string e,string p) : id(genId()), name(n), email(e), password(p) {}
+};
+
+struct Project {
+    uint64_t id; string key, name; uint64_t owner;
+    Project(string k,string n,uint64_t o) : id(genId()), key(k), name(n), owner(o) {}
+};
+
+enum class Status { TO_DO, IN_PROGRESS, DONE };
+
+struct Comment {
+    uint64_t id, author; string text;
+    Comment(uint64_t a,string t) : id(genId()), author(a), text(t) {}
+};
+
+struct Ticket {
+    uint64_t id, projectId, reporterId;
+    optional<uint64_t> assignee;
+    string key, title, desc;
+    Status status = Status::TO_DO;
+    vector<Comment> comments;
+
+    Ticket(string k,uint64_t p,uint64_t r,string t,string d)
+        : id(genId()), key(k), projectId(p), reporterId(r), title(t), desc(d) {}
+};
+
+// ---------------- Auth Service ----------------
+class AuthService {
+    unordered_map<string,uint64_t> emailToId;
+    unordered_map<string,uint64_t> tokenToId;
+    unordered_map<uint64_t,User> users;
+public:
+    uint64_t registerUser(string n,string e,string p) {
+        if(emailToId.count(e)) throw runtime_error("Email exists");
+        User u(n,e,p);
+        users[u.id]=u;
+        emailToId[e]=u.id;
+        return u.id;
+    }
+
+    string login(string email,string pass){
+        if(!emailToId.count(email)) throw runtime_error("Invalid");
+        uint64_t uid = emailToId[email];
+        if(users[uid].password!=pass) throw runtime_error("Invalid");
+        string token="token"+to_string(uid);
+        tokenToId[token]=uid;
+        return token;
+    }
+
+    uint64_t auth(string token){
+        if(!tokenToId.count(token)) throw runtime_error("Unauthorized");
+        return tokenToId[token];
+    }
+};
+
+// ---------------- Project Service ----------------
+class ProjectService {
+    unordered_map<uint64_t,Project> projects;
+    unordered_map<uint64_t,int> seq;
+public:
+    uint64_t createProject(string key,string name,uint64_t owner){
+        Project p(key,name,owner);
+        projects[p.id]=p;
+        return p.id;
+    }
+    string getKey(uint64_t pid){ return projects[pid].key; }
+    int nextSeq(uint64_t pid){ return ++seq[pid]; }
+};
+
+// ---------------- Ticket Service ----------------
+class TicketService {
+    unordered_map<uint64_t,Ticket> tickets;
+    ProjectService& ps;
+public:
+    TicketService(ProjectService& p) : ps(p) {}
+
+    uint64_t createTicket(uint64_t pid,uint64_t reporter,string t,string d){
+        string key = ps.getKey(pid)+"-"+to_string(ps.nextSeq(pid));
+        Ticket tk(key,pid,reporter,t,d);
+        tickets[tk.id]=tk;
+        return tk.id;
+    }
+
+    void assign(uint64_t tid,uint64_t user){
+        tickets[tid].assignee = user;
+    }
+
+    void comment(uint64_t tid,uint64_t author,string text){
+        tickets[tid].comments.emplace_back(author,text);
+    }
+
+    vector<Ticket> search(string q){
+        vector<Ticket> out;
+        for(auto &p:tickets){
+            auto &t=p.second;
+            if(t.title.find(q)!=string::npos || t.desc.find(q)!=string::npos)
+                out.push_back(t);
+        }
+        return out;
+    }
+};
+
+// ---------------- Demo ----------------
+int main(){
+    AuthService auth;
+    ProjectService ps;
+    TicketService ts(ps);
+
+    uint64_t a = auth.registerUser("Alice","a@mail","a1");
+    uint64_t b = auth.registerUser("Bob","b@mail","b1");
+
+    string at = auth.login("a@mail","a1");
+
+    uint64_t pid = ps.createProject("PRJ","Project X",a);
+
+    uint64_t tid = ts.createTicket(pid,a,"Bug login","Login returns 500");
+
+    ts.assign(tid,b);
+    ts.comment(tid,b,"Investigating.");
+
+    auto results = ts.search("login");
+    cout << results.size() << " ticket(s) match\n";
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#include <bits/stdc++.h>
 #include <atomic>
 #include <mutex>
 using namespace std;
