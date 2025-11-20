@@ -1,3 +1,75 @@
++----------------+              +--------------------+
+|    Logger      |              |    AuthService     |
++----------------+              +--------------------+
+| + now():string |              | - emailToId: map   |
+| + info(msg)    |              | - tokenToId: map   |
+| + warn(msg)    |              | - users: map       |
+| + error(msg)   |              +--------------------+
++----------------+              | + registerUser(..) |
+                                | + login(..)        |
+                                | + auth(..)         |
+                                +--------------------+
+                                         |
+                                         |
+                                         v
+                                +--------------------+
+                                |       User         |
+                                +--------------------+
+                                | - id:int           |
+                                | - name:string      |
+                                | - email:string     |
+                                | - password:string  |
+                                +--------------------+
+
++--------------------+            1      *      +----------------+
+|   ProjectService   |--------------------------|    Project     |
++--------------------+                          +----------------+
+| - projects: map    |                          | - id:int       |
+| - seq: map         |                          | - key:string   |
++--------------------+                          | - name:string  |
+| + createProject()  |                          | - owner:int    |
+| + getKey()         |                          +----------------+
+| + nextSeq()        |
++--------------------+
+
++--------------------+             1     *      +----------------+
+|   TicketService    |---------------------------|    Ticket     |
++--------------------+                           +----------------+
+| - tickets: map     |                           | - id:int      |
+| - ps: ProjectService&|                         | - projectId   |
++--------------------+                           | - reporterId  |
+| + createTicket()   |                           | - assignee    |
+| + assign()         |                           | - key         |
+| + comment()        |                           | - title       |
+| + markOpen()       |                           | - desc        |
+| + markClosed()     |                           | - status      |
+| + search()         |                           | - state       |
++--------------------+                           | - comments[]  |
+                                                  +----------------+
+                                                             |
+                                                             | 1  *
+                                                             |
+                                                   +----------------+
+                                                   |    Comment     |
+                                                   +----------------+
+                                                   | - id:int       |
+                                                   | - author:int   |
+                                                   | - text:string  |
+                                                   +----------------+
+
+Enums:
++-------------------+
+|     Status        |
+| TO_DO, IN_PROGRESS|
+| DONE              |
++-------------------+
+
++-------------------+
+|   TicketState     |
+|   OPEN, CLOSED    |
++-------------------+
+
+
 #include <bits/stdc++.h>
 using namespace std;
 
